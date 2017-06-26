@@ -1,0 +1,213 @@
+//------------------------------------------------------------------------------
+// medbed.def
+//
+// Copyright 2002-2004 Raven Software
+//------------------------------------------------------------------------------
+
+//------------------------------------------------------------------------------
+//							Vehicle Defintion
+//------------------------------------------------------------------------------
+
+
+entityDef vehicle_bodytable
+{
+	"inherit"					"func_mover"
+	"spawnclass"				"rvVehicleRigid"
+	"editor_usage"				""
+	"editor_color"				"0 .5 .25"
+	"editor_mins"				"-40 -8 0"
+	"editor_maxs"				"40 8 36"
+	"editor_rotatable"			"1"
+	"model"						"model_bodytable_wide"
+	"mins"						"-40 -8 0"
+	"maxs"						"40 8 36"
+	"anim"						"idle"
+	"def_position_driver"		"vehicle_medbed_patient"
+	"health"					"1000"
+	"mass"						"10"
+	"size"						"80 16 36"
+	"gui_hud"					"guis/vehicles/medchange.gui"
+	"lowhealth"					"150"
+	"nav_active"				"1"
+	"damageStaticChance"		".05"
+
+	"shieldMins"				"-90 -86 0"
+	"shieldMaxs"				"100 86 170"
+	"shieldSides"				"10"
+	"shieldHealth"				"500"
+	"shieldRegenDelay"			"6"
+	"shieldRegenTime"			"9"	
+	"gui_hud"					"guis/vehicles/hud.gui"
+	"gui"						"guis/vehicles/mdisp.gui"
+	"hudid"						"1"
+
+
+
+}
+
+model model_bodytable_wide
+{
+	inherit		"model_bodytable"
+	mesh		models/mapobjects/strogg/medlabs/bodytable/bodytable_wide.md5mesh
+}
+
+
+//------------------------------------------------------------------------------
+//								Positions
+//------------------------------------------------------------------------------
+entityDef vehicle_medbed_patient
+{
+	"eyeJoint"					"head"
+	"eyeoffset"					"25 0 25"
+	"depthHack"					"0"
+	"def_part_turn"				"vehicle_medbed_turn"
+	"exitPosOffset"				"0 32 0"
+	"exitAxisOffset"			"0 0 0"
+	"angles_offset"				"0 -90 0"
+
+
+	"def_part_mgun"				"vehicle_gev_weapon_mgun1"	
+	"def_part_mgun2"			"vehicle_gev_weapon_mgun2"		
+
+}
+
+entityDef vehicle_gev_weapon_mgun2
+{
+	"spawnclass"				"rvVehicleWeapon"
+
+	"joint"						"mgun1"
+//	"joint2"					"mgun2"
+//	"joint3"					"mgun3"
+	
+	"firedelay"					".8"
+	"def_hitscan"				"hitscan_my_bullet_turret_rail_2"
+	"spread"					"1.8"
+
+	"mtr_flashShader"			"lights/muzzleflash"
+	"flashColor"				".9 0.1 0"
+	"flashRadius"				"1"
+	"flashPointLight"			"1"
+	"flashTime"					".1"
+	"flashOffset"				"40 0 0"
+	
+	"recoilTime"				"200"
+	"recoilAngles"				"-0.15 0 0.15"
+
+	"positions"					"0"
+
+	"fx_muzzleflash"			"effects/vehicles/gev/machinegun/muzzleflash.fx"
+	"snd_fire"					"weapon_blaster_charge_click"
+	"mtr_crosshair"				"gfx/guis/crosshairs/crosshair_machinegun"
+}
+
+entityDef vehicle_gev_weapon_mgun1
+{
+	"spawnclass"				"rvVehicleWeapon"
+
+	"joint"						"mgun1"
+//	"joint2"					"mgun2"
+//	"joint3"					"mgun3"
+	
+	"firedelay"					".26"
+	"def_hitscan"				"hitscan_my_bullet_turret_rail_1"
+	"spread"					"2.5"
+
+	"mtr_flashShader"			"lights/muzzleflash"
+	"flashColor"				"0.72 1 .9"
+	"flashRadius"				"1"
+	"flashPointLight"			"1"
+	"flashTime"					".1"
+	"flashOffset"				"40 0 0"
+	
+	"recoilTime"				"200"
+	"recoilAngles"				"-0.15 0 0.15"
+
+	"positions"					"0"
+
+	"fx_muzzleflash"			"effects/vehicles/gev/machinegun/muzzleflash.fx"
+	"snd_fire"					"weapon_blaster_charge_click"
+	"mtr_crosshair"				"gfx/guis/crosshairs/crosshair_machinegun"
+}
+
+
+entityDef vehicle_medbed_turn
+{
+	"spawnclass"				"rvVehicleTurret"
+	"joint"						"head"	
+	"yaw"						"0"
+	"pitch"						"1"
+	"minyaw"					"-125"
+	"maxyaw"					"125"
+	"minpitch"					"-24"
+	"maxpitch"					"130"	
+	"pitchinvert"				"1"
+	"turnrate"					"50"
+}
+
+
+
+entityDef hitscan_my_bullet_turret_rail_1
+{
+	"inherit"					"hitscan_gev_bullet"	
+	"def_damage"				"damage_my_bullet_2"
+
+	"fx_impact"			"effects/weapons/hyperblaster/impact_default.fx"
+	"fx_fly"			"effects/weapons/hyperblaster/fly.fx"
+	"fx_impact_concrete"		"effects/weapons/hyperblaster/impact_concrete.fx"
+	"fx_impact_rock"		"effects/weapons/hyperblaster/impact_concrete.fx"
+	"fx_impact_glass"		"effects/weapons/hyperblaster/impact_glass.fx"					
+	"fx_impact_bpglass"		"effects/weapons/hyperblaster/impact_bpglass.fx"
+	"fx_impact_electronics"		"effects/weapons/hyperblaster/impact_electronics.fx"	
+	"fx_impact_flesh"		"effects/weapons/hyperblaster/impact_flesh.fx"
+	"fx_impact_monstermetal"	"effects/weapons/hyperblaster/impact_flesh.fx"	
+	"fx_trail"			""
+	"fx_impact_mp"			"effects/weapons/hyperblaster/impact_default_mp.fx"
+	"fx_impact_concrete_mp"		"effects/weapons/hyperblaster/impact_default_mp.fx"
+	"fx_impact_rock_mp"		"effects/weapons/hyperblaster/impact_default_mp.fx"
+	"fx_impact_glass_mp"		"effects/weapons/hyperblaster/impact_default_mp.fx"
+	"fx_impact_bpglass_mp"		"effects/weapons/hyperblaster/impact_default_mp.fx"
+	"fx_impact_electronics_mp"	"effects/weapons/hyperblaster/impact_default_mp.fx"
+
+}
+
+entityDef hitscan_my_bullet_turret_rail_2
+{
+	"inherit"					"hitscan_gev_bullet"	
+	"def_damage"				"damage_my_bullet_3"
+
+	"fx_impact"			"effects/weapons/hyperblaster/impact_default.fx"
+	"fx_fly"			"effects/weapons/hyperblaster/fly.fx"
+	"fx_impact_concrete"		"effects/weapons/hyperblaster/impact_concrete.fx"
+	"fx_impact_rock"		"effects/weapons/hyperblaster/impact_concrete.fx"
+	"fx_impact_glass"		"effects/weapons/hyperblaster/impact_glass.fx"					
+	"fx_impact_bpglass"		"effects/weapons/hyperblaster/impact_bpglass.fx"
+	"fx_impact_electronics"		"effects/weapons/hyperblaster/impact_electronics.fx"	
+	"fx_impact_flesh"		"effects/weapons/hyperblaster/impact_flesh.fx"
+	"fx_impact_monstermetal"	"effects/weapons/hyperblaster/impact_flesh.fx"	
+	"fx_trail"			""
+	"fx_impact_mp"			"effects/weapons/hyperblaster/impact_default_mp.fx"
+	"fx_impact_concrete_mp"		"effects/weapons/hyperblaster/impact_default_mp.fx"
+	"fx_impact_rock_mp"		"effects/weapons/hyperblaster/impact_default_mp.fx"
+	"fx_impact_glass_mp"		"effects/weapons/hyperblaster/impact_default_mp.fx"
+	"fx_impact_bpglass_mp"		"effects/weapons/hyperblaster/impact_default_mp.fx"
+	"fx_impact_electronics_mp"	"effects/weapons/hyperblaster/impact_default_mp.fx"
+
+}
+
+
+//------------------------------------------------------------------------------
+//								Damage Defs
+//------------------------------------------------------------------------------
+
+
+entityDef damage_my_bullet_3
+{
+	"inherit"					"damage_bullet"
+	"damage"					"165"
+}
+
+entityDef damage_my_bullet_2
+{
+	"inherit"					"damage_bullet"
+	"damage"					"65"
+}
