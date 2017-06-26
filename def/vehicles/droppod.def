@@ -1,0 +1,418 @@
+//------------------------------------------------------------------------------
+// droppod.def
+//
+// Copyright 2002-2004 Raven Software
+//------------------------------------------------------------------------------
+
+export vehicle_drop_pod
+{
+	options -prefix DROP_POD_ -scale .3937 -align ALL -keep eye1 eye2	-sourcedir work\models\vehicles\marine_drop_pod\animations		 -destdir models\vehicles\marine_drop_pod
+	mesh drop_pod_idle.ma			-dest drop_pod  
+	anim drop_pod_idle.ma			-dest idle
+	anim storage1_pod_skyfall.ma	-dest storage1_pod_skyfall
+	anim Storage1_crash.ma			-dest storage_crash
+	anim doors_opening.ma			-dest doors_opening
+	anim doors_closing.ma			-dest doors_closing
+}
+
+model model_vehicle_drop_pod
+{
+	mesh							models\vehicles\marine_drop_pod\drop_pod.md5mesh
+	
+	channel torso	( *origin )
+	
+	anim idle						models\vehicles\marine_drop_pod\idle.md5anim
+
+/*
+	anim storage_crash				models\vehicles\marine_drop_pod\storage_crash.md5anim
+	{
+		rate	.5
+		frame	1						event			disableClip
+		frame	1						event			disableGravity
+		frame	12, 17, 56, 94					call			map_storage1::playTubeCrashSnd
+		//frame	5						call			map_storage1::podCrashGrunt
+		frame	6						call			map_storage1::podCrashGrunt
+		frame	30						call			map_storage1::playGib
+		
+		frame	56						call			map_storage1::shaftWallA
+		frame	85						call			map_storage1::shaftWallB
+		frame	90						call			map_storage1::shaftWallB_back
+		
+		frame	134						call			map_storage1::tubeHallA
+		frame	146						call			map_storage1::tubeHallB
+		
+		frame	153						call			map_storage1::lastWall
+
+		frame	56,87,92,136,148,156,174				call			map_storage1::playExplode
+
+	}
+*/
+	anim storage1_pod_skyfall		models\vehicles\marine_drop_pod\storage1_pod_skyfall.md5anim
+
+	anim doors_opening				models\vehicles\marine_drop_pod\doors_opening.md5anim
+	anim doors_closing				models\vehicles\marine_drop_pod\doors_closing.md5anim
+}
+
+//------------------------------------------------------------------------------
+//							Vehicle Defintion
+//------------------------------------------------------------------------------
+
+entityDef vehicle_drop_pod
+{
+	"editor_color"				"1 .5 0"
+	"editor_mins"				"-8 -8 -8"
+	"editor_maxs"				"8 8 8"
+	"editor_ragdoll"			"1"
+	"editor_rotatable"			"1"
+	"editor_usage"				"GEV."
+
+	"spawnclass"				"rvVehicleRigid"
+
+	"model"						"vehicle_drop_pod"
+		
+	"mins"							"-92 -24 -42"
+	"maxs"							"92 24 20"
+	"size"							"4 4 4"
+	"def_position_driver"		"vehicle_my_driver"
+
+	"gui_hud"					"guis/vehicles/hud.gui"
+	"hudid"						"1"
+	
+	"mass"						"2500"
+	"team"						"0"
+	"density"					".0005"
+	"friction_linear"			".8"
+	"friction_contact"			".7"
+	"bouncyness"				".4"
+	"nav_active"				"1"
+	
+	"shieldMins"				"0 0 0"
+	"shieldMaxs"				"0 0 0"
+	"shieldSides"				"4"
+/*
+	"shieldHealth"				"250"
+	"shieldRegenDelay"			"6"
+	"shieldRegenTime"			"3"
+
+	"health"					"2000"
+	// wait 6 seconds after taking damage before starting recharge
+	"healthRegenDelay"			"6"
+	// regain 100 health per second
+	"healthRegenRate"			"100"
+*/
+
+	//	trying some things out.		-mrenner
+
+	"health"					"500"
+	"healthRegenDelay"			"6"
+	"healthRegenRate"			"22"
+	
+	"shieldHealth"				"1350"
+	"shieldRegenDelay"			"4"
+	"shieldRegenTime"			"4"
+
+
+
+//	"crashSpeedSmall"			"200"
+//	"crashSpeedMedium"			"350"
+//	"crashSpeedLarge"			"450"
+
+	"crashSpeedSmall"			"450"		// -mrenner
+	"crashSpeedMedium"			"650"		// -mrenner
+	"crashSpeedLarge"			"850"		// -mrenner
+	"crashVelocitySmall"		"0"
+	"crashVelocityMedium"		"0"
+	"crashVelocityLarge"		"0"
+	"alwaysImpactDamage"		"1"
+
+	"def_crashDamage"			"damage_gev_crash"
+
+	"snd_crash_small"			"vehicle_crash_small"
+	"snd_crash_medium"			"vehicle_crash_medium"
+	"snd_crash_large"			"vehicle_crash_large"
+	"snd_cannon_kickback"		"vehicle_gev_cannon_kickback"	
+	"snd_shieldWarning"			"vehicle_walker_shield_warning"
+	"snd_shieldRecharge"		"vehicle_walker_shield_recharge"
+	
+	"snd_incomingProjectile"	"ambient_incoming_klaxon"
+		
+	"fx_death"					"effects/vehicles/explosion_tank.fx"
+//	"fx_shield"					"effects/vehicles/walker/shield.fx"	
+	"fx_shield"					""	// mrenner
+	"fx_crash"					"effects/vehicles/crash.fx"
+
+	"focusLength_enter"			"100"
+	
+	"touchtriggers"				"1"
+
+	"joint_eyeOffset"			"eye"
+	
+	"locked_flip_death"			"1"
+}
+
+//------------------------------------------------------------------------------
+//								Positions
+//------------------------------------------------------------------------------
+
+entityDef vehicle_my_driver
+{
+	"def_part_hover_fl"			"vehicle_gev_hoverpad_fl"
+	"def_part_hover_bl"			"vehicle_gev_hoverpad_bl"
+	"def_part_hover_fr"			"vehicle_gev_hoverpad_fr"
+	"def_part_hover_br"			"vehicle_gev_hoverpad_br"
+				
+	"def_part_yaw"					"vehicle_drop_pod_yaw"
+	"def_part_pitch"				"vehicle_drop_pod_pitch"
+	
+	
+	"def_part_mgun"				"vehicle_gev_weapon_mgun"		
+
+	
+	"def_part_light"			"vehicle_gev_light"
+		
+	"eyeJoint"					"eye2"
+	"eyeOffset"					"15 0 1"
+//	"eyeJointAxisMap"			"1 0 2"
+//	"eyeJointDirMap"			"-1 1 1"
+	
+	"driverJoint"				"origin"
+	"driverVisible"				"0"
+
+	// Global sounds when position is enabled
+	"snd_loop"					"vehicle_gev_engine_loop"
+	"volume"					"-4 5.5"
+	"freqShift"					"1 1.2"
+	"maxSoundSpeed"				"600"	
+}
+entityDef vehicle_drop_pod_driver
+{
+	"eyeJoint"						"eye2"
+	"eyeOffset"						"4 0 1"
+
+//	"depthHack"						"0"
+
+	"def_part_yaw"					"vehicle_drop_pod_yaw"
+	"def_part_pitch"				"vehicle_drop_pod_pitch"
+}
+//------------------------------------------------------------------------------
+//									Model
+//------------------------------------------------------------------------------
+model vehicle_drop_pod
+{
+	mesh						models\vehicles\marine_drop_pod\drop_pod.md5mesh
+	
+	offset						( -20 0 0 )
+
+	channel legs				( *origin )
+
+	anim idle					models\vehicles\marine_drop_pod\idle.md5anim
+	
+}
+//------------------------------------------------------------------------------
+//								Parts
+//------------------------------------------------------------------------------
+
+
+entityDef vehicle_gev_hoverpad
+{
+	"spawnclass"				"rvVehicleHoverpad"
+
+	"height"					"50"
+	"dampen"					"100"
+
+	"force"						"266.5"
+	"forceTable"				"vehicle_gev_hover"
+	"forceUpTime"				"2"
+	"forceDownTime"				"2"	
+	"forceRandom"				"75"
+	
+	"maxRestAngle"				"15"
+
+	"fx_dust"				"effects/vehicles/gev/dust.fx"
+	"fx_dust_rock"				"effects/vehicles/gev/dust_rock.fx"	
+
+	"snd_loop"					"vehicle_gev_hoverpad"
+	"volume"					"-20 -4"
+	"freqShift"					"1 1.2"
+	"fadetime"					"2"	
+
+	"mins"						"0 0 0"
+	"maxs"						"0 0 0"
+	
+	"thrustForward"				"225"
+	"thrustLeft"				"280"
+}
+
+entityDef vehicle_gev_hoverpad_fl
+{
+	"inherit"					"vehicle_gev_hoverpad"
+	"offset"					"100 70 0"
+	"force"						"300"
+	"mins"						"0 0 0"
+	"maxs"						"0 0 0"
+}
+
+entityDef vehicle_gev_hoverpad_fr
+{
+	"inherit"					"vehicle_gev_hoverpad"
+	"offset"					"100 -70 0"
+	"force"						"300"
+
+	"mins"						"0 0 0"
+	"maxs"						"0 0 0"
+}
+
+entityDef vehicle_gev_hoverpad_bl
+{
+	"inherit"					"vehicle_gev_hoverpad"
+	"offset"					"-110 70 0"
+
+	"mins"						"0 0 0"
+	"maxs"						"0 0 0"
+}
+
+entityDef vehicle_gev_hoverpad_br
+{
+	"inherit"					"vehicle_gev_hoverpad"
+	"offset"					"-110 -70 0"
+	
+	"mins"						"0 0 0"
+	"maxs"						"0 0 0"
+}
+
+entityDef vehicle_gev_turret_yaw
+{
+	"spawnclass"				"rvVehicleTurret"
+
+	"joint"						"turret"
+	
+	"yaw"						"1"
+	"turnrate"					"300"
+
+	"snd_loop"					"vehicle_turret_move"
+	"volume"					"-10 8"
+
+	"alignment_joint"			"turret"
+	"alignment_power"			"4"
+	"alignment_delta"			"3.4"
+}
+
+entityDef vehicle_gev_turret_pitch
+{
+	"spawnclass"				"rvVehicleTurret"
+
+	"joint"						"gun_pivot"
+
+	"pitch"						"1"
+	"minpitch"					"-35"
+	"maxpitch"					"12"
+	"turnrate"					"240"
+
+	"snd_loop"					"vehicle_turret_move"
+	"volume"					"-10 6"
+}
+
+
+
+entityDef vehicle_gev_weapon_mgun
+{
+	"spawnclass"				"rvVehicleWeapon"
+
+	"joint"						"mgun1"
+//	"joint2"					"mgun2"
+//	"joint3"					"mgun3"
+	
+	"firedelay"					".1"
+	"def_hitscan"				"hitscan_gev_bullet"
+	"spread"					"2.5"
+
+	"mtr_flashShader"			"lights/muzzleflash"
+	"flashColor"				"1 0.8 0.4"
+	"flashRadius"				"1"
+	"flashPointLight"			"1"
+	"flashTime"					".1"
+	"flashOffset"				"40 0 0"
+	
+	"recoilTime"				"200"
+	"recoilAngles"				"-0.15 0 0.15"
+
+	"positions"					"1"
+
+	"fx_muzzleflash"			"effects/vehicles/gev/machinegun/muzzleflash.fx"
+	"snd_fire"					"vehicle_walker_machinegun"
+	"mtr_crosshair"				"gfx/guis/crosshairs/crosshair_machinegun"
+}
+
+
+entityDef vehicle_gev_light
+{
+	"spawnclass"				"rvVehicleLight"
+	
+	"mtr_light"					"gfx/lights/vehicle"
+	"color"						"1 1 .9"
+	"radius"					"800"
+	"target"					"2000 0 0"
+	"up"						"0 900 0"
+	"right"						"0 0 1300"
+	"pointLight"				"0"
+	
+	"flaresurface"				"models/vehicles/flare"
+	
+	"snd_on"					"ambient_light_shut_off"
+	"snd_off"					"ambient_light_shut_off"
+	
+	"joint"						"Light1"
+	"start_on"					"0"
+}
+
+
+entityDef vehicle_gev_thruster_forward
+{
+	"spawnclass"				"rvVehicleThruster"
+	"force"						"25000"
+	"forceAxis"					"0"
+	"useCenterMass"				"1"
+	"offset"					"0 0 -10" // -100 0 25"
+	"key"						"forward"
+}
+
+entityDef vehicle_gev_thruster_right
+{
+	"spawnclass"				"rvVehicleThruster"
+	"force"						"-8500"
+	"forceAxis"					"1"
+	"useCenterMass"				"1"
+	"offset"					"200 0 0"
+	"key"						"right"
+}
+
+entityDef vehicle_gev_thruster_right2
+{
+	"spawnclass"				"rvVehicleThruster"
+	"force"						"8500"
+	"forceAxis"					"1"
+	"useCenterMass"				"1"
+	"offset"					"-200 0 0"
+	"key"						"right"
+}
+
+entityDef vehicle_drop_pod_yaw
+{
+	"spawnclass"					"rvVehicleTurret"
+	"turnrate"						"750"
+	"joint"							"eye2"
+	"yaw"							"0"
+
+	"minyaw"						"-80"	
+	"maxyaw"						"80"
+}
+entityDef vehicle_drop_pod_pitch
+{
+	"spawnclass"					"rvVehicleTurret"
+	"turnrate"						"750"
+	"joint"							"eye1"
+	"pitch"							"1"
+	"pitchinvert"					"1"
+	
+	"minpitch"						"-20"
+	"maxpitch"						"55"
